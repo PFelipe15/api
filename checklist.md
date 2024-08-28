@@ -19,16 +19,16 @@ imagens.
 - [ ] Inserir nova leitura no banco de dados.
 
 ## Regras de Negócio
-- [ ] Validar se todos os campos obrigatórios foram preenchidos.
-- [ ] Verificar duplicidade de leitura para o mês.
+- [X] Validar se todos os campos obrigatórios foram preenchidos.
+- [X] Verificar duplicidade de leitura para o mês.
 - [ ] Processar imagem com o serviço Gemini para extrair valores.
 - [ ] Salvar a leitura no banco de dados.
 - [ ] Retornar a URL da imagem e o valor extraído.
 
 ## Testes
-- [ ] Escrever testes unitários para as funções de validação.
-- [ ] Testar a rota de upload com campos válidos e inválidos.
-- [ ] Testar a lógica de duplicidade de leitura.
+- [X] Escrever testes unitários para as funções de validação.
+- [X] Testar a rota de upload com campos válidos e inválidos.
+- [X] Testar a lógica de duplicidade de leitura.
 - [ ] Testar a integração com o serviço Gemini.
 - [ ] Testar o comportamento em caso de falha no servidor.
 

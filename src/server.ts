@@ -1,5 +1,9 @@
 import fastify from "fastify";
-const app = fastify({ logger: true });
+import VerifyBase64 from "./utils/verify-base64";
+
+
+
+const app = fastify();
 
 interface measureBodyProps {
   image: string;
@@ -13,15 +17,33 @@ app.get("/:customer_code/list", async (request, reply) => {
 });
 app.post("/upload", async (request, reply) => {
   const measure = request.body as measureBodyProps;
-
-   if (
+  if (
     !measure.customer_code ||
-    !measure.measure_datetime
+    !measure.measure_datetime ||
+    !measure.measure_type ||
+    !measure.image
   ) {
-    return reply.status(404).send({
+    return reply.status(400).send({
       error_code: "INVALID_DATA",
       error_description:
         "Os dados fornecidos no corpo da requisição são inválidos",
+    });
+  }
+
+  if (VerifyBase64(measure.image) === false) {
+    return reply.status(400).send({
+      error_code: "INVALID_DATA",
+      error_description:
+        "Os dados fornecidos no corpo da requisição são inválidos",
+    });
+  }
+
+  const hasMeasure = false;
+
+  if (hasMeasure) {
+    return reply.status(409).send({
+      error_code: "DOUBLE_REPORT",
+      error_description: "Leitura do mês já realizada",
     });
   }
 
