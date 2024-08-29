@@ -1,43 +1,19 @@
- import fs from "fs/promises";
-import path from "path";
+import fs from "fs/promises";
 import prisma from "../config/db";
-import VerifyBase64 from "../utils/verify-base64";
 import GeminiResMeasure from "../services/gemini-upload";
-import { saveFile } from "../utils/file-save";
 import convertDate from "../utils/format-date";
 import { FastifyReply, FastifyRequest } from "fastify";
-
-interface MeasureBodyProps {
-  customer_code: string;
-  measure_datetime: string;
-  measure_type: string;
-}
+import { processMultipartData } from "../services/process-multipart-data";
 
 export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const parts = request.parts();
-  const fields: Partial<MeasureBodyProps> = {};
-  let fileData: any = null;
-
-  for await (const part of parts) {
-    if (part.type === "file") {
-      const filename = part.filename || "default_filename.png";
-      const { buffer, base64Image, imagePath } = await saveFile(
-        part.file,
-        path.join(__dirname, "..", "uploads"),
-        filename
-      );
-
-      if (!VerifyBase64(base64Image)) {
-        return reply.status(400).send({
-          error_code: "INVALID_DATA",
-          error_description: "Imagem inválida",
-        });
-      }
-
-      fileData = { buffer, mimetype: part.mimetype, filename, path: imagePath };
-    } else {
-      fields[part.fieldname as keyof MeasureBodyProps] = part.value as string;
-    }
+  let fields, fileData;
+  try {
+    ({ fields, fileData } = await processMultipartData(request));
+  } catch (error) {
+    return reply.status(500).send({
+      error_code: "INTERNAL_SERVER_ERROR",
+      error_description: "Erro ao processar a requisição",
+    });
   }
 
   if (
@@ -58,6 +34,7 @@ export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply
     const response = await GeminiResMeasure(fileData);
     await fs.unlink(fileData.path);
 
+    // https://github.com/prisma/prisma/discussions/11443
     const readingMeasure = await prisma.measure.count({
       where: {
         customer_code: fields.customer_code,
