@@ -1,16 +1,19 @@
 const VerifyBase64 = (base64: string): boolean => {
-  const base64Pattern = /^data:image\/(jpeg|png|gif|bmp|webp|svg\+xml);base64,/;
+  const base64Data = base64.split(",").pop();
 
-  if (!base64Pattern.test(base64)) {
+  if (!base64Data || !/^[A-Za-z0-9+/=]+$/.test(base64Data)) {
     return false;
   }
 
-  const base64Data = base64.split(",")[1];
-
-  const isBase64Valid = /^[A-Za-z0-9+/=]+$/.test(base64Data);
-
-  return isBase64Valid;
+  if (base64Data.length % 4 !== 0) {
+    return false;
+  }
+  try {
+    Buffer.from(base64Data, "base64");
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
-
-export default VerifyBase64
+export default VerifyBase64;

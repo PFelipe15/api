@@ -12,25 +12,25 @@ imagens.
 - [X] Configurar as rotas básicas.
 
 ## Funcionalidades
-- [ ] Implementar o upload de imagens.
-- [ ] Criar o serviço Gemini para extração de valores a partir de imagens.
-- [ ] Implementar validações de campos obrigatórios no upload.
+- [x] Implementar o upload de imagens.
+- [X] Criar o serviço Gemini para extração de valores a partir de imagens.
+- [X] Implementar validações de campos obrigatórios no upload.
 - [ ] Verificar se já existe uma leitura para o mês (regra de negócio).
 - [ ] Inserir nova leitura no banco de dados.
 
 ## Regras de Negócio
 - [X] Validar se todos os campos obrigatórios foram preenchidos.
 - [X] Verificar duplicidade de leitura para o mês.
-- [ ] Processar imagem com o serviço Gemini para extrair valores.
+- [x] Processar imagem com o serviço Gemini para extrair valores.
 - [ ] Salvar a leitura no banco de dados.
-- [ ] Retornar a URL da imagem e o valor extraído.
+- [X] Retornar a URL da imagem e o valor extraído.
 
 ## Testes
 - [X] Escrever testes unitários para as funções de validação.
 - [X] Testar a rota de upload com campos válidos e inválidos.
 - [X] Testar a lógica de duplicidade de leitura.
-- [ ] Testar a integração com o serviço Gemini.
-- [ ] Testar o comportamento em caso de falha no servidor.
+- [X] Testar a integração com o serviço Gemini.
+- [X] Testar o comportamento em caso de falha no servidor.
 
 ## Documentação
 - [ ] Documentar a API utilizando Swagger ou outro framework.
