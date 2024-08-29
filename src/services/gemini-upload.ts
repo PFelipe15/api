@@ -32,14 +32,19 @@ const GeminiResMeasure = async (fileData: FileData): Promise<MeasureResponse> =>
           fileUri: uploadResponse.file.uri,
         },
       },
-      { text: "Analise a imagem e retorne o numero que está no medidor, retorne somente o numero" },
+      { text: "Extraia apenas os números do medidor da imagem e retorne somente esses números." },
     ]);
 
-    const getResponse = await fileManager.getFile(uploadResponse.file.name);
 
+    const measureValue = result.response.text().replace(/\D/g, '');
+
+
+
+    const getResponse = await fileManager.getFile(uploadResponse.file.name);
+ 
     return {
       image_url: getResponse.uri,
-      measure_value: result.response.text(),
+      measure_value: measureValue,
       measure_uuid: randomUUID(),
     };
   } catch (error) {
