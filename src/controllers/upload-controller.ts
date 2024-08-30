@@ -41,7 +41,7 @@ export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply
     const readingMeasure = await prisma.measure.count({
       where: {
         customer_code: fields.customer_code,
-        measure_type: fields.measure_type,
+        measure_type: fields.measure_type.toUpperCase(),
         measure_datetime: {
           gte: new Date(new Date(fields.measure_datetime).getFullYear(), new Date(fields.measure_datetime).getMonth(), 1),
           lt: new Date(new Date(fields.measure_datetime).getFullYear(), new Date(fields.measure_datetime).getMonth() + 1, 1),
