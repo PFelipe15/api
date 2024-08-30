@@ -10,8 +10,8 @@ axios.defaults.validateStatus = function () {
 
 
 test("Aplicacao retornará sucess para operacao realizada com sucesso ",async ()=>{
-
-const measure_create = await prisma.measure.create({
+await prisma.measure.deleteMany({});
+await prisma.measure.create({
     data: {
         customer_code:"132345",
         measure_uuid: "uuid123",

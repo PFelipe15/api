@@ -16,6 +16,7 @@ export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply
     });
   }
 
+ 
   if (
     !fields.customer_code ||
     !fields.measure_datetime ||
@@ -27,6 +28,8 @@ export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply
       error_description: "Os dados fornecidos no corpo da requisição são inválidos",
     });
   }
+
+
 
   fields.measure_datetime = convertDate(fields.measure_datetime);
 
