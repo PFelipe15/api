@@ -53,7 +53,7 @@ test("Aplicacao retornará MEASURE_NOT_FOUND para operacao não encontrada ",asy
 
 })
 test("Aplicacao retornará CONFIRMATION_DUPLICATE para operacao já confirmada ",async ()=>{
-
+await prisma.measure.deleteMany({});
      await prisma.measure.create({
         data: {
             customer_code:"132345",

@@ -19,9 +19,6 @@ app.get("/:customer_code/list", async (request, reply) => {
   const { customer_code } = request.params as { customer_code: string };
   const { measure_type } = request.query as { measure_type?: string };
 
-  
-  console.log(measure_type)
-
   if (measure_type && !["WATER", "GAS"].includes(measure_type.toUpperCase())) {
     return reply.status(400).send({
       error_code: "INVALID_TYPE",
