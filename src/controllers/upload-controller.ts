@@ -7,16 +7,18 @@ import { processMultipartData } from "../services/process-multipart-data";
 
 export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply) => {
   let fields, fileData;
-  try {
+
+   try {
     ({ fields, fileData } = await processMultipartData(request));
+  
   } catch (error) {
+    console.error('Erro ao processar multipart data:', error);
     return reply.status(500).send({
       error_code: "INTERNAL_SERVER_ERROR",
       error_description: "Erro ao processar a requisição",
     });
   }
 
- 
   if (
     !fields.customer_code ||
     !fields.measure_datetime ||
@@ -28,8 +30,6 @@ export const uploadHandler = async (request: FastifyRequest, reply: FastifyReply
       error_description: "Os dados fornecidos no corpo da requisição são inválidos",
     });
   }
-
-
 
   fields.measure_datetime = convertDate(fields.measure_datetime);
 

@@ -3,8 +3,7 @@ import multipart from "@fastify/multipart";
 import dotenv from "dotenv";
 import { uploadHandler } from "./controllers/upload-controller";
 import { confirmHandler } from "./controllers/confirm-controller";
-import prisma from "./config/db";
-import { listMeasureHandler } from "./controllers/list-measure-controller";
+ import { listMeasureHandler } from "./controllers/list-measure-controller";
  
 dotenv.config();
 
@@ -20,5 +19,5 @@ app.get("/:customer_code/list", listMeasureHandler);
 
 
 app.listen({ port: 8080 }, () => {
-  console.log(`Server listening on http://localhost:8080`);
+  console.log(`Server listening on http://0.0.0.0:8080`);
 });

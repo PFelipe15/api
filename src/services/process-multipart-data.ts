@@ -2,6 +2,7 @@ import { FastifyRequest } from "fastify";
 import path from "path";
 import { saveFile } from "../utils/file-save";
 import VerifyBase64 from "../utils/verify-base64";
+import fs from "fs/promises";
 
 interface MeasureBodyProps {
   customer_code: string;
@@ -27,9 +28,14 @@ export const processMultipartData = async (request: FastifyRequest): Promise<Pro
   for await (const part of parts) {
     if (part.type === "file") {
       const filename = part.filename || "default_filename.png";
+      const uploadPath = path.join(process.cwd(), "uploads");
+
+      // Cria o diretório 'uploads' se não existir
+      await fs.mkdir(uploadPath, { recursive: true });
+
       const { buffer, base64Image, imagePath } = await saveFile(
         part.file,
-        path.join(__dirname, "..", "uploads"),
+        uploadPath,
         filename
       );
 
