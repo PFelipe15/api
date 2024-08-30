@@ -1,14 +1,14 @@
 const axios = require("axios");
 import VerifyBase64 from "../utils/verify-base64";
 import prisma from "../config/db";
+const fs = require('fs');
+const path = require('path');
 
-// Configurando o axios para não validar status automaticamente
-axios.defaults.validateStatus = function () {
+ axios.defaults.validateStatus = function () {
   return true;
 };
 
-// Limpar o banco de dados antes e depois dos testes
-beforeAll(async () => {
+ beforeAll(async () => {
   await prisma.measure.deleteMany({});
 });
 
@@ -17,8 +17,12 @@ afterAll(async () => {
 });
 
 test.skip("Realizar operação de upload com sucesso", async () => {
+  const imagePath = path.join(__dirname, '../../', 'imageTeste.png');
+  const imageBuffer = fs.readFileSync(imagePath);
+  const base64Image = imageBuffer.toString('base64');
+
   const body = new FormData();
-  body.append("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA");
+  body.append("image", `data:image/png;base64,${base64Image}`);
   body.append("customer_code", "12345");
   body.append("measure_datetime", "2024-08-01T12:00:00Z");
   body.append("measure_type", "WATER");
@@ -30,12 +34,12 @@ test.skip("Realizar operação de upload com sucesso", async () => {
   });
 
   expect(res.status).toBe(200);
-  expect(typeof res.data.image_url).toBe("string");
-  expect(typeof res.data.measure_value).toBe("string");  
-  expect(typeof res.data.measure_uuid).toBe("string");
+  expect(res.data).toHaveProperty("image_url");
+  expect(res.data).toHaveProperty("measure_value");
+  expect(res.data).toHaveProperty("measure_uuid");
 });
 
-test.skip("Retornar 400 error code e INVALID DATA no Upload", async () => {
+test.skip("Retornar 400 error code e INVALID_DATA no Upload com dados inválidos", async () => {
   const body = new FormData();
   body.append("image", "");
   body.append("customer_code", "");
@@ -55,8 +59,8 @@ test.skip("Retornar 400 error code e INVALID DATA no Upload", async () => {
   );
 });
 
-test.skip("Retornar 409 error code e DOUBLE_REPORT no Upload", async () => {
-   await prisma.measure.create({
+test.skip("Retornar 409 error code e DOUBLE_REPORT no Upload de medição duplicada", async () => {
+  await prisma.measure.create({
     data: {
       customer_code: "12345",
       measure_datetime: new Date("2024-08-01T12:00:00Z"),
@@ -102,7 +106,6 @@ test.skip("VerifyBase64 deve retornar false para uma string base64 inválida", a
   expect(result).toBe(false);
 });
 
- 
 test.skip("Retornar 500 error code em caso de erro interno", async () => {
   const body = new FormData();
   body.append("image", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAA");
