@@ -1,13 +1,20 @@
-FROM node:18-alpine
+FROM node:latest
 
-WORKDIR /app
+WORKDIR /api
 
 COPY package*.json ./
+
+RUN rm -rf node_modules
+
 RUN npm install
+
+RUN npm run build
 
 COPY . .
 
-RUN npm run build
+RUN npx prisma generate
+
+RUN npm run start
 
 EXPOSE 8080
 

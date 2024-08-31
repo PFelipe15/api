@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "dev": "npx tsx watch src/server.ts",
-    "start": "npx prisma migrate deploy && tsx src/server.ts"
+    "start": "node build/server.cjs" ,
+    "build": "tsup src --out-dir build"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,7 @@
     "@types/node": "^22.5.1",
     "prisma": "^5.19.0",
     "ts-node": "^10.9.2",
+    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   }
 }

@@ -18,6 +18,14 @@ app.patch("/confirm", confirmHandler);
 app.get("/:customer_code/list", listMeasureHandler);
 
 
-app.listen({ port: 8080 }, () => {
-  console.log(`Server listening on http://0.0.0.0:8080`);
+app.get('/test', (req, res) => {
+  res.send('API is working');
+});
+
+app.listen({ port: 8080, host: '0.0.0.0' }, (err, address) => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+  console.log(`Servidor ouvindo em ${address}`);
 });
