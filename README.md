@@ -22,12 +22,35 @@ Shopper API é uma aplicação backend robusta desenvolvida para gerenciar opera
 - npm (normalmente vem com Node.js)
 - Docker e Docker Compose
 
-### Passos para Instalação
+## 🛠️ Instalação e Configuração
+
+Você pode escolher entre instalação manual ou usar Docker Compose para configurar e executar a aplicação.
+
+### 🐳 Usando Docker Compose (Recomendado)
+
+Se você tem Docker e Docker Compose instalados, pode configurar e executar a aplicação com um único comando:
 
 1. **Clone o repositório**
    ```
-   git clone https://github.com/seu-usuario/shopper-api.git
-   cd shopper-api
+   git clone https://github.com/PFelipe15/api.git
+   cd api
+   ```
+
+2. **Inicie a aplicação com Docker Compose**
+   ```
+   docker-compose up --build
+   ```
+
+Este comando irá construir a imagem Docker, instalar as dependências, configurar o banco de dados e iniciar a aplicação automaticamente.
+
+### Instalação Manual
+
+Se preferir uma instalação manual, siga estes passos:
+
+1. **Clone o repositório**
+   ```
+   git clone https://github.com/PFelipe15/api.git
+   cd api
    ```
 
 2. **Instale as dependências**
@@ -51,6 +74,12 @@ Shopper API é uma aplicação backend robusta desenvolvida para gerenciar opera
    npm run seed
    ```
 
+6. **Inicie a aplicação**
+   ```
+   npm run dev
+   ```
+
+Escolha o método que melhor se adapta ao seu ambiente de desenvolvimento. O uso do Docker Compose simplifica significativamente o processo de configuração e execução, especialmente em ambientes de equipe ou para implantações consistentes.
 ## 🔐 Configuração das Variáveis de Ambiente
 
 1. **Edite o arquivo .env**
